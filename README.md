@@ -55,7 +55,6 @@ GUI-File-Packer-Unpacker/
 ---
 
 ## 🎬 Demo / Example
-*(Optional: Add screenshots of the GUI interface, packed/unpacked files, and encryption workflow)*  
 
 ---
 
