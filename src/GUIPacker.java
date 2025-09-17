@@ -1,3 +1,12 @@
+///////////////////////////////////////////////////////////////////////////////////////////
+//
+//	Class Name		: 	Packer
+//	Description 	: 	It provides a GUI to pack multiple files from a directory into a single file.
+//	Author			: 	Vaibhav Patil
+//	Date			:	20/07/2025
+//
+///////////////////////////////////////////////////////////////////////////////////////////
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -11,9 +20,18 @@ class Packer implements ActionListener
     public JTextField tfield1, tfield2;
     public JButton packButton;
 
+    ///////////////////////////////////////////////////////////////////////////////////////////
+    //
+    //	Function Name	: 	Packer (Constructor)
+    //	Input			: 	String (Title), int (Width), int (Height)
+    //	Output			: 	None
+    //	Description 	: 	Constructor to initialize GUI components for the Packer Application
+    //	Author			: 	Vaibhav Patil
+    //	Date			:	20/07/2025
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////////
     public Packer(String Title, int Width, int Height) 
     {
-        
         fobj = new JFrame();
         fobj.setTitle(Title);
         fobj.setSize(Width, Height);
@@ -43,24 +61,35 @@ class Packer implements ActionListener
         fobj.getContentPane().setBackground(Color.PINK);
         fobj.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         fobj.setVisible(true);
-
     }
+
+    ///////////////////////////////////////////////////////////////////////////////////////////
+    //
+    //	Function Name	: 	actionPerformed
+    //	Input			: 	ActionEvent (ae)
+    //	Output			: 	None
+    //	Description 	: 	Handles the click event of the PACK button. 
+    //					  It reads all files from the given folder and writes them into a single packed file.
+    //	Author			: 	Vaibhav Patil
+    //	Date			:	21/07/2025
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////////
     public void actionPerformed(ActionEvent ae) 
     {
         try
         {
-            int i = 0,j = 0,iRet = 0,iCountFile = 0;
+            int i = 0, j = 0, iRet = 0, iCountFile = 0;
 
             if(ae.getSource() == packButton)
             {
                 File fobj = new File(tfield1.getText());
                 
-                // Check the existance of Directory
+                // Check the existence of Directory
                 if((fobj.exists()) && (fobj.isDirectory()))
                 {
                     File Packobj = new File(tfield2.getText());
 
-                    //Create a Packed File
+                    // Create a Packed File
                     boolean bRet = Packobj.createNewFile();
 
                     if (bRet == false)
@@ -68,37 +97,35 @@ class Packer implements ActionListener
                         return;
                     }
 
-                    //Retrived All files from Directory
-                    File Arr[] = fobj.listFiles();           //file class objects after that into Arr[]
+                    // Retrieved All files from Directory
+                    File Arr[] = fobj.listFiles();  
 
-                    //*System.out.println("Number of Files in the "+labellNo1+" Directory are : "+Arr.length);
-
-                    //Packed File object
+                    // Packed File object
                     FileOutputStream foobj = new FileOutputStream(Packobj);
 
-                    //Buffer for Read and Write Activity
+                    // Buffer for Read and Write Activity
                     byte Buffer[] = new byte[1024];
 
                     String Header = null;
 
-                    //Directory Traversal
+                    // Directory Traversal
                     for(i=0;i < Arr.length;i++)
                     {
                         Header = Arr[i].getName()+" "+Arr[i].length();
 
-                        //Loop to form 100 bytes Header
+                        // Loop to form 100 bytes Header
                         for(j=Header.length();j<100;j++)
                         {
                             Header = Header + " ";
                         }
-                        //write Header into packed file
-                        
+
+                        // Write Header into packed file
                         foobj.write(Header.getBytes());
                         
-                        //Open file from directory for reading
+                        // Open file from directory for reading
                         FileInputStream fiobj = new FileInputStream(Arr[i]);
 
-                        //write contents of file from packed file
+                        // Write contents of file into packed file
                         while((iRet = fiobj.read(Buffer))!= -1)    
                         {
                             foobj.write(Buffer,0,iRet);
@@ -110,13 +137,32 @@ class Packer implements ActionListener
             }
         }
         catch(Exception eobj)
-        {}
+        {
+            // Exception Handling (Ignored)
+        }
     }
 }
 
-
+///////////////////////////////////////////////////////////////////////////////////////////
+//
+//	Class Name		: 	GUIPacker
+//	Description 	: 	Main class to run the Packer Application
+//	Author			: 	Vaibhav Patil
+//	Date			:	20/07/2025
+//
+///////////////////////////////////////////////////////////////////////////////////////////
 class GUIPacker
 {
+    ///////////////////////////////////////////////////////////////////////////////////////////
+    //
+    //	Function Name	: 	main
+    //	Input			: 	String[] (Command line arguments)
+    //	Output			: 	None
+    //	Description 	: 	Entry point for the program. Creates an object of Packer.
+    //	Author			: 	Vaibhav Patil
+    //	Date			:	21/07/2025
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////////
     public static void main(String A[]) 
     {
         new Packer("Marvellous Packer", 400, 300);
